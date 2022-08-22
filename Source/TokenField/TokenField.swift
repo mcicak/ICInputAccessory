@@ -34,6 +34,8 @@ import UIKit
   @objc optional func tokenFieldDidEndEditing(_ tokenField: TokenField)
   /// Tells the delegate that the token field will process the pressing of the return button.
   @objc optional func tokenFieldWillReturn(_ tokenField: TokenField)
+  /// Tells the delegate that text field will be cleared.
+  @objc optional func tokenFieldWillClear(_ tokenField: TokenField)
   /// Tells the delegate the input text is changed.
   @objc optional func tokenField(_ tokenField: TokenField, didChangeInputText text: String)
   /// Asks the delegate if the text should become a token in the token field.
@@ -324,6 +326,11 @@ open class TokenField: UIView, UITextFieldDelegate, BackspaceTextFieldDelegate {
     togglePlaceholderIfNeeded()
     delegate?.tokenFieldWillReturn?(self)
     return true
+  }
+    
+  open func textFieldShouldClear(_ textField: UITextField) -> Bool {
+      delegate?.tokenFieldWillClear?(self)
+      return true
   }
 
   // MARK: - BackspaceTextFieldDelegate
